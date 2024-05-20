@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\KelaniSTEAM_Backend.props" />
+</Project>
