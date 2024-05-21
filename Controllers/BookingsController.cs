@@ -47,18 +47,15 @@ public class BookingController : ControllerBase
     // Route: PUT api/booking/updateBookingById/{id}
     [HttpPut]
     [Route("updateBookingById/{id:length(24)}")]
-    public async Task<IActionResult> Update(string id, Booking updatedBooking)
+    public async Task<IActionResult> UpdateStatus(string id, [FromBody] bool status)
     {
         var booking = await _bookingService.GetAsync(id);
-
         if (booking is null)
         {
             return NotFound();
         }
 
-        updatedBooking.Id = booking.Id;
-
-        await _bookingService.UpdateAsync(id, updatedBooking);
+        await _bookingService.UpdateStatusAsync(id, status);
 
         return NoContent();
     }

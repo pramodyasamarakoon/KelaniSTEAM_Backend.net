@@ -18,8 +18,8 @@ public class Booking
     public string Expectation { get; set; } = null!;
     public string WhatWeGet { get; set; } = null!;
     public string ProposalLink { get; set; } = null!;
-    public string BookingDate { get; set; } = null!;
+    public DateTime BookingDate { get; set; } = DateTime.Now;
     public string? Other { get; set; }
-    public string Status { get; set; } = null!;
+    public Boolean? Status { get; set; }
 
 }

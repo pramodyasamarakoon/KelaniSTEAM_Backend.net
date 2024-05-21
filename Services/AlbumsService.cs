@@ -21,8 +21,11 @@ public class AlbumsService
     }
 
     // Get All
-    public async Task<List<Album>> GetAsync() =>
-        await _albumsCollection.Find(_ => true).ToListAsync();
+    public async Task<List<Album>> GetRecentAsync() =>
+        await _albumsCollection.Find(_ => true)
+                                   .Sort(Builders<Album>.Sort.Descending(a => a.AlbumDate))
+                                   .Limit(10)
+                                   .ToListAsync();
 
     // Get by Id
     public async Task<Album?> GetAsync(string id) =>
@@ -36,7 +39,7 @@ public class AlbumsService
     public async Task UpdateAsync(string id, Album updatedAlbum) =>
         await _albumsCollection.ReplaceOneAsync(x => x.Id == id, updatedAlbum);
 
-// Delete by Id
+    // Delete by Id
     public async Task RemoveAsync(string id) =>
         await _albumsCollection.DeleteOneAsync(x => x.Id == id);
 }

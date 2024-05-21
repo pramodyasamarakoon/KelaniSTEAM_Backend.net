@@ -17,7 +17,7 @@ public class AlbumsController : ControllerBase
     [HttpGet]
     [Route("getAll")]
     public async Task<List<Album>> Get() =>
-        await _albumsService.GetAsync();
+        await _albumsService.GetRecentAsync();
 
     // Route: GET api/albums/getAlbumById/{id}
     [HttpGet]

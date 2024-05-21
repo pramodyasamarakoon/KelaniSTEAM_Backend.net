@@ -16,7 +16,10 @@ public class BookingService
     }
 
     public async Task<List<Booking>> GetAsync() =>
-        await _bookingCollection.Find(_ => true).ToListAsync();
+        // await _bookingCollection.Find(_ => true).ToListAsync();
+        await _bookingCollection.Find(_ => true)
+                                   .Sort(Builders<Booking>.Sort.Descending(a => a.BookingDate))
+                                   .ToListAsync();
 
     public async Task<Booking?> GetAsync(string id) =>
         await _bookingCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
@@ -24,8 +27,12 @@ public class BookingService
     public async Task CreateAsync(Booking newBooking) =>
         await _bookingCollection.InsertOneAsync(newBooking);
 
-    public async Task UpdateAsync(string id, Booking updatedBooking) =>
-        await _bookingCollection.ReplaceOneAsync(x => x.Id == id, updatedBooking);
+    public async Task UpdateStatusAsync(string id, bool status)
+        {
+            var filter = Builders<Booking>.Filter.Eq(b => b.Id, id);
+            var update = Builders<Booking>.Update.Set(b => b.Status, status);
+            await _bookingCollection.UpdateOneAsync(filter, update);
+        }
 
     public async Task RemoveAsync(string id) =>
         await _bookingCollection.DeleteOneAsync(x => x.Id == id);
