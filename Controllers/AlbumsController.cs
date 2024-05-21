@@ -2,7 +2,7 @@ using KelaniSTEAM_Backend.Models;
 using KelaniSTEAM_Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStoreApi.Controllers;
+namespace KelaniSTEAM_Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,11 +13,15 @@ public class AlbumsController : ControllerBase
     public AlbumsController(AlbumsService albumsService) =>
         _albumsService = albumsService;
 
+    // Route: GET api/albums/getAll
     [HttpGet]
+    [Route("getAll")]
     public async Task<List<Album>> Get() =>
         await _albumsService.GetAsync();
 
-    [HttpGet("{id:length(24)}")]
+    // Route: GET api/albums/getAlbumById/{id}
+    [HttpGet]
+    [Route("getAlbumById/{id:length(24)}")]
     public async Task<ActionResult<Album>> Get(string id)
     {
         var album = await _albumsService.GetAsync(id);
@@ -30,7 +34,9 @@ public class AlbumsController : ControllerBase
         return album;
     }
 
+    // Route: POST api/albums/create
     [HttpPost]
+    [Route("create")]
     public async Task<IActionResult> Post(Album newAlbum)
     {
         await _albumsService.CreateAsync(newAlbum);
@@ -38,7 +44,9 @@ public class AlbumsController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = newAlbum.Id }, newAlbum);
     }
 
-    [HttpPut("{id:length(24)}")]
+    // Route: PUT api/albums/updateAlbumById/{Id}
+    [HttpPut]
+    [Route("updateAlbumById/{id:length(24)}")]
     public async Task<IActionResult> Update(string id, Album updatedAlbum)
     {
         var album = await _albumsService.GetAsync(id);
@@ -55,7 +63,8 @@ public class AlbumsController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id:length(24)}")]
+    [HttpDelete]
+    [Route("deleteAlbumById/{id:length(24)}")]
     public async Task<IActionResult> Delete(string id)
     {
         var album = await _albumsService.GetAsync(id);

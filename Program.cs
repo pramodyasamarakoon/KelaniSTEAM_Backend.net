@@ -13,6 +13,10 @@ builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("AlbumsDatabase"));
 builder.Services.AddSingleton<AlbumsService>();
 
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("BookingsDatabase"));
+builder.Services.AddSingleton<BookingService>();
+
 builder.Services.AddControllers()
     .AddJsonOptions(
         options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
