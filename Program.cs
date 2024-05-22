@@ -4,60 +4,59 @@ using KelaniSTEAM_Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.Configure<BookStoreDatabaseSettings>(
-    builder.Configuration.GetSection("BookStoreDatabase"));
-builder.Services.AddSingleton<BooksService>();
+// Configure services
+void ConfigureService<TSettings, TService>(WebApplicationBuilder builder, string sectionName)
+    where TSettings : class
+    where TService : class
+{
+    builder.Services.Configure<TSettings>(builder.Configuration.GetSection(sectionName));
+    builder.Services.AddSingleton<TService>();
+}
 
-builder.Services.Configure<DatabaseSettings>(
-    builder.Configuration.GetSection("AlbumsDatabase"));
-builder.Services.AddSingleton<AlbumsService>();
-
-builder.Services.Configure<DatabaseSettings>(
-    builder.Configuration.GetSection("BookingsDatabase"));
-builder.Services.AddSingleton<BookingService>();
-builder.Services.Configure<DatabaseSettings>(
-    builder.Configuration.GetSection("ProjectsDatabase"));
-builder.Services.AddSingleton<ProjectService>();
+// Add services to the container
+ConfigureService<BookStoreDatabaseSettings, BooksService>(builder, "BookStoreDatabase");
+ConfigureService<DatabaseSettings, AlbumsService>(builder, "AlbumsDatabase");
+ConfigureService<DatabaseSettings, BookingService>(builder, "BookingsDatabase");
+ConfigureService<DatabaseSettings, ProjectService>(builder, "ProjectsDatabase");
+ConfigureService<DatabaseSettings, TshirtOrderService>(builder, "TshirtOrdersDatabase");
 
 builder.Services.AddControllers()
-    .AddJsonOptions(
-        options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 builder.Services.AddDbContext<TodoContext>(opt =>
     opt.UseInMemoryDatabase("TodoList"));
 
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder =>
+        policyBuilder =>
         {
-            builder.WithOrigins("http://localhost:3000")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
+            policyBuilder.WithOrigins("http://localhost:3000")
+                         .AllowAnyHeader()
+                         .AllowAnyMethod();
         });
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
 }
+
+app.UseHttpsRedirection();
 
 app.UseRouting();
 
-// Enable CORS
 app.UseCors("AllowSpecificOrigin");
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
