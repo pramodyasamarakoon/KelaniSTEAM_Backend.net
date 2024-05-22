@@ -16,6 +16,9 @@ builder.Services.AddSingleton<AlbumsService>();
 builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("BookingsDatabase"));
 builder.Services.AddSingleton<BookingService>();
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("ProjectsDatabase"));
+builder.Services.AddSingleton<ProjectService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(
