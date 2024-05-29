@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KelaniSTEAM_Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87a39b13327980d297982e3efd18386749c1b3b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5af9cb1e6f45785618c44a4042857bad3bf7817")]
 [assembly: System.Reflection.AssemblyProductAttribute("KelaniSTEAM_Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KelaniSTEAM_Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -47,15 +47,28 @@ public class TshirtOrderController : ControllerBase
     // Route: PUT api/tshirtOrder/updateTshirtOrderById/{id}
     [HttpPut]
     [Route("updateTshirtOrderById/{id:length(24)}")]
-    public async Task<IActionResult> UpdateStatus(string id, [FromBody] bool status)
+    // public async Task<IActionResult> UpdateStatus(string id, [FromBody] string status)
+    // {
+    //     var tshirtOrder = await _tshirtOrderService.GetAsync(id);
+    //     if (tshirtOrder is null)
+    //     {
+    //         return NotFound();
+    //     }
+
+    //     await _tshirtOrderService.UpdateStatusAsync(id, status);
+
+    //     return NoContent();
+    // }
+    public async Task<IActionResult> UpdateStatus(string id, [FromBody] TshirtOrderUpdateStatusDTO updateStatusDto)
     {
         var tshirtOrder = await _tshirtOrderService.GetAsync(id);
+
         if (tshirtOrder is null)
         {
             return NotFound();
         }
 
-        await _tshirtOrderService.UpdateStatusAsync(id, status);
+        await _tshirtOrderService.UpdateStatusAsync(id, updateStatusDto.Status);
 
         return NoContent();
     }

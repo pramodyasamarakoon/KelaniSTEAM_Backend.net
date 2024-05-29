@@ -26,12 +26,18 @@ public class TshirtOrderService
     public async Task CreateAsync(TshirtOrder newTshirtOrder) =>
         await _tshirtOrderCollection.InsertOneAsync(newTshirtOrder);
 
+    // public async Task UpdateStatusAsync(string id, string status)
+    //     {
+    //         var filter = Builders<TshirtOrder>.Filter.Eq(b => b.Id, id);
+    //         var update = Builders<TshirtOrder>.Update.Set(b => b.Status, status);
+    //         await _tshirtOrderCollection.UpdateOneAsync(filter, update);
+    //     }
+
     public async Task UpdateStatusAsync(string id, bool status)
-        {
-            var filter = Builders<TshirtOrder>.Filter.Eq(b => b.Id, id);
-            var update = Builders<TshirtOrder>.Update.Set(b => b.Status, status);
-            await _tshirtOrderCollection.UpdateOneAsync(filter, update);
-        }
+    {
+        var update = Builders<TshirtOrder>.Update.Set(order => order.Status, status);
+        await _tshirtOrderCollection.UpdateOneAsync(order => order.Id == id, update);
+    }
 
     public async Task RemoveAsync(string id) =>
         await _tshirtOrderCollection.DeleteOneAsync(x => x.Id == id);
