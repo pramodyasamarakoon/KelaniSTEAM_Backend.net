@@ -19,6 +19,7 @@ ConfigureService<DatabaseSettings, AlbumsService>(builder, "AlbumsDatabase");
 ConfigureService<DatabaseSettings, BookingService>(builder, "BookingsDatabase");
 ConfigureService<DatabaseSettings, ProjectService>(builder, "ProjectsDatabase");
 ConfigureService<DatabaseSettings, TshirtOrderService>(builder, "TshirtOrdersDatabase");
+ConfigureService<DatabaseSettings, AuthService>(builder, "UserDatabase");
 
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
