@@ -37,4 +37,18 @@ public class AuthService
     {
         return _usersCollection.Find(u => u.UserName == username).FirstOrDefault();
     }
+
+    public List<User> GetAllUsers()
+        {
+            return _usersCollection.Find(_ => true).SortByDescending(u => u.CreatedDate).ToList();
+        }
+
+        public void DeleteUserById(string id)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Id, id);
+
+            _usersCollection.DeleteOne(filter);
+        }
+
+
 }

@@ -11,4 +11,8 @@ public class User
     public string? Id { get; set; }
     public string UserName { get; set; } = null!;
     public string PasswordHash { get; set; } = null!;
+
+    [BsonRepresentation(BsonType.String)]
+    [JsonIgnore]
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
 }

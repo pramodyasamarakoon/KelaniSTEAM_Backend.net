@@ -49,10 +49,43 @@ public class AuthController : ControllerBase
         return Ok(new { Token = token });
     }
 
+     // Route: GET api/user/getallusers
+    [HttpGet]
+    [Route("getallusers")]
+    public IActionResult GetAllUsers()
+    {
+        var users = _authService.GetAllUsers();
+        var result = users.Select(user => new 
+        {
+            user.Id,
+            user.UserName
+        }).ToList();
+        
+        return Ok(result);
+    }
+
+    // Route: DELETE api/auth/deleteUserById{id}
+        [HttpDelete]
+        [Route("deleteUserById/{id}")]
+        public IActionResult DeleteUser(string id)
+        {
+            try
+            {
+                _authService.DeleteUserById(id);
+                return Ok("User deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     private string GenerateJwtToken(User user)
     {
         byte[] key = new byte[32];
         new Random().NextBytes(key);
         return Convert.ToBase64String(key);
     }
+
+
 }
